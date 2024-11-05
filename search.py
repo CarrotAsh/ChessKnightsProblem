@@ -2,20 +2,30 @@ import numpy as np
 
 def initial_state(M, N):
     # Crea un tablero vacío usando 0s
-    return [[0 for _ in range(N)] for _ in range(M)]
+    return np.zeros((M, N), dtype=int)
 
 # Ejemplo de uso de la función estado inicial
-board = initial_state(3, 3)
-print(board)
-
 def expand(board):
     boards = [] # Crea una lista vacía de tableros
 
     # Crea una lista de tableros con todas las posibles jugadas
+    def copiar_tablero(board):
+          return np.copy(board)
 
+    def movimientos_de_caballo(M, N, x, y):
+          movimientos = [(x + 2, y + 1), (x + 2, y - 1), (x - 2, y + 1), (x - 2, y - 1), (x + 1, y + 2), (x + 1, y - 2), (x - 1, y + 2), (x - 1, y - 2) ]
+          return [(i, j) for i, j in movimientos if 0 <= i < M and 0 <= j < N]
+
+    def colocar_caballo(board, x, y):
+          board[x][y] = 1
+          return board
 
     return boards # Devolvemos una lista de tableros
 
+# Pistas:
+# - Una función que copie un tablero completo
+# - Una función que coloque un caballo en una posición dada en i, j
+# - Una estructura de datos con los movimientos posibles para un caballo
 # Pistas:
 # - Una función que copie un tablero completo
 # - Una función que coloque un caballo en una posición dada en i, j
