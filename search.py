@@ -1,31 +1,53 @@
 import numpy as np
+import pandas as pd
+
 
 def initial_state(M, N):
     # Crea un tablero vacío usando 0s
     return np.zeros((M, N), dtype=int)
 
+
+# Ejemplo de uso de la función estado inicial
+board = initial_state(3, 3)
+print(board)
+
+# Crea una lista de tableros con todas las posibles jugadas
+def copiar_tablero(board):
+    return np.copy(board)
+
+def movimientos_de_caballo(M, N, x, y):
+    movimientos = [(x + 2, y + 1), (x + 2, y - 1), (x - 2, y + 1), (x - 2, y - 1), (x + 1, y + 2), (x + 1, y - 2),
+                   (x - 1, y + 2), (x - 1, y - 2)]
+    return [(i, j) for i, j in movimientos if 0 <= i < M and 0 <= j < N]
+
+def colocar_caballo(board, x, y):
+    board[x][y] = 1
+    return board
+
+def es_valido_nuevo_caballo(board, x, y):
+    if board[x][y]:
+        return False
+    movs = movimientos_de_caballo(board.shape[0], board.shape[1], x, y)
+    for i,j in movs:
+        if board[i][j]:
+            return False
+
+    return True
+
 # Ejemplo de uso de la función estado inicial
 def expand(board):
-    boards = [] # Crea una lista vacía de tableros
+    boards = []  # Crea una lista vacía de tableros
 
-    # Crea una lista de tableros con todas las posibles jugadas
-    def copiar_tablero(board):
-          return np.copy(board)
+    for i in range(board.shape[0]):
+        for j in range(board.shape[1]):
+            if es_valido_nuevo_caballo(board, i, j):
+                nuevo_tablero = copiar_tablero(board)
+                colocar_caballo(nuevo_tablero,i,j)
+                boards.append(nuevo_tablero)
 
-    def movimientos_de_caballo(M, N, x, y):
-          movimientos = [(x + 2, y + 1), (x + 2, y - 1), (x - 2, y + 1), (x - 2, y - 1), (x + 1, y + 2), (x + 1, y - 2), (x - 1, y + 2), (x - 1, y - 2) ]
-          return [(i, j) for i, j in movimientos if 0 <= i < M and 0 <= j < N]
+    return boards  # Devolvemos una lista de tableros
 
-    def colocar_caballo(board, x, y):
-          board[x][y] = 1
-          return board
-
-    return boards # Devolvemos una lista de tableros
-
-# Pistas:
-# - Una función que copie un tablero completo
-# - Una función que coloque un caballo en una posición dada en i, j
-# - Una estructura de datos con los movimientos posibles para un caballo
+'''
 # Pistas:
 # - Una función que copie un tablero completo
 # - Una función que coloque un caballo en una posición dada en i, j
@@ -166,3 +188,4 @@ print("Execution finished")
 ### Coloca aquí tus experimentos ###
 
 ### Coloca aquí tus experimentos ###
+'''
