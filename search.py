@@ -8,6 +8,7 @@ def initial_state(M, N):
 
 # Ejemplo de uso de la función estado inicial
 board = initial_state(3, 3)
+print("Tablero Inicial: ")
 print(board)
 
 # Crea una lista de tableros con todas las posibles jugadas
@@ -50,19 +51,11 @@ def expand(board):
 # - Una función que coloque un caballo en una posición dada en i, j
 # - Una estructura de datos con los movimientos posibles para un caballo
 
-'''
+
 lista_tableros = expand(board)
 print("Expansion: ")
 for b in range(len(lista_tableros)):
     print(lista_tableros[b])
-'''
-
-# Pistas:
-# - Una función que copie un tablero completo
-# - Una función que coloque un caballo en una posición dada en i, j
-# - Una estructura de datos con los movimientos posibles para un caballo
-
-expand(board) # Debe devolver una lista de tableros
 
 def is_solution(board):
     # Verifica si un tablero es solución
@@ -75,34 +68,22 @@ def is_solution(board):
 
     return True # Devuelve True si es solución, False en caso contrario
 
+#print("Solucion:", is_solution(board))
+
+def cost(path): # path debe contener VARIOS tableros
+    # Calcula el coste de un camino
+    # Esto debería ser posible: board = path[-1]
+    cost = 0
+
+    # Calcula el coste de un camino completo
+
+    return cost
+
+# Pista:
+# - Recuerda que A* y B&B funcionan minimizando el coste.
+# - ¿Podemos afrontar este problema de otra manera? Maximizar las casillas ocupadas NO funciona...
+
 '''
-
-def cost(path): # path debe contener VARIOS tableros
-    # Calcula el coste de un camino
-    # Esto debería ser posible: board = path[-1]
-    cost = 0
-
-    # Calcula el coste de un camino completo
-
-    return cost
-
-# Pista:
-# - Recuerda que A* y B&B funcionan minimizando el coste.
-# - ¿Podemos afrontar este problema de otra manera? Maximizar las casillas ocupadas NO funciona...
-
-def cost(path): # path debe contener VARIOS tableros
-    # Calcula el coste de un camino
-    # Esto debería ser posible: board = path[-1]
-    cost = 0
-
-    # Calcula el coste de un camino completo
-
-    return cost
-
-# Pista:
-# - Recuerda que A* y B&B funcionan minimizando el coste.
-# - ¿Podemos afrontar este problema de otra manera? Maximizar las casillas ocupadas NO funciona...
-
 def prune(path_list):
     # Si detecta que dos caminos llevan al mismo estado,
     # solo nos interesa aquel camino de menor coste
