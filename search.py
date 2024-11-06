@@ -68,7 +68,7 @@ def is_solution(board):
 
     return True # Devuelve True si es solución, False en caso contrario
 
-#print("Solucion:", is_solution(board))
+print("Solucion:", is_solution(board))
 
 def cost(path): # path debe contener VARIOS tableros
     # Calcula el coste de un camino
