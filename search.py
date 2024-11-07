@@ -71,17 +71,31 @@ def is_solution(board):
 print("Solucion:", is_solution(board))
 
 def cost(path): # path debe contener VARIOS tableros
-    # Calcula el coste de un camino
-    # Esto debería ser posible: board = path[-1]
-    cost = 0
-
+    actual = path[0]
+    next = path[1]
+    x, y = 0, 0
+    found = False
+    for i in range(actual.shape[0]):
+        for j in range(actual.shape[1]):
+            if actual[i][j] == 0 and next[i][j] == 1:
+                x = i
+                y = j
+                found = True
+                break
+        if found:
+            break
+    cost = len(knight_movements(next.shape[0], next.shape[1], x, y))
     # Calcula el coste de un camino completo
-
     return cost
 
+def heuristic_1(board):
+    heuristic = 0
+
+    return heuristic
+
 # Pista:
-# - Recuerda que A* y B&B funcionan minimizando el coste.
-# - ¿Podemos afrontar este problema de otra manera? Maximizar las casillas ocupadas NO funciona...
+# - Al igual que con el coste cuanto menor sea el valor de la heurística mejor, ya que se pretende minimizar.
+# - Puedes probar con heuristicas no admisibles, pero al menos una de ellas debe ser admisible para puntuar.
 
 '''
 def prune(path_list):
