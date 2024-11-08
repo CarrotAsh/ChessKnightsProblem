@@ -2,16 +2,12 @@ import numpy as np
 import pandas as pd
 
 def initial_state(M, N):
-    # Crea un tablero vacío usando 0s
     return np.zeros((M, N), dtype=int)
 
-# Ejemplo de uso de la función estado inicial
 board = initial_state(3, 3)
 print("Tablero Inicial: ")
-board[0][0] = 1
 print(board)
 
-# Crea una lista de tableros con todas las posibles jugadas
 def copy_board(board):
     return np.copy(board)
 
@@ -22,6 +18,7 @@ def knight_movements(M, N, x, y):
 
 def place_knight(board, x, y):
     board[x][y] = 1
+    threatened_square(board, x, y)
     return board
 
 def is_valid_new_knight(board, x, y):
@@ -39,9 +36,8 @@ def threatened_square(board, x, y):
         board[i][j] = -1
     return board
 
-# Ejemplo de uso de la función estado inicial
 def expand(board):
-    boards = []  # Crea una lista vacía de tableros
+    boards = []
 
     for i in range(board.shape[0]):
         for j in range(board.shape[1]):
@@ -50,13 +46,7 @@ def expand(board):
                 place_knight(new_board,i,j)
                 boards.append(new_board)
 
-    return boards  # Devolvemos una lista de tableros
-
-# Pistas:
-# - Una función que copie un tablero completo
-# - Una función que coloque un caballo en una posición dada en i, j
-# - Una estructura de datos con los movimientos posibles para un caballo
-
+    return boards
 
 lista_tableros = expand(board)
 print("Expansion: ")
@@ -64,61 +54,32 @@ for b in range(len(lista_tableros)):
     print(lista_tableros[b])
 
 def is_solution(board):
-    # Verifica si un tablero es solución
     for i in range(board.shape[0]):
         for j in range(board.shape[1]):
             if is_valid_new_knight(board, i, j): #Si puede poner un caballo no es solución
                 return False
-    # Haz todas las comprobaciones necesarias para determinar
-    # si el tablero es solución
+    return True
 
-    return True # Devuelve True si es solución, False en caso contrario
+print("Es solucion:", is_solution(board))
 
-print("Solucion:", is_solution(board))
+path = expand(board)[0]
 
-'''
+print(path)
+
 def cost(path):
-    actual = path[0]
-    next = path[1]
-    x, y = 0, 0
-    found = False
-    for i in range(actual.shape[0]):
-        for j in range(actual.shape[1]):
-            if actual[i][j] == 0 and next[i][j] == 1:
-                x = i
-                y = j
-                found = True
-                break
-        if found:
-            break
-    cost = len(knight_movements(next.shape[0], next.shape[1], x, y))
-    # Calcula el coste de un camino completo
-    return cost
-
-def coste(path):
-  if len(path) == 0:
+    if path:
+        return np.sum(board[path[:-1]] == -1)
     return 0
-  g = 0
-  for path[0], path[1] in zip(path[: -1], path[1: ]):
-    g += np.sum(abs(path[0] - path[1]) / 2)
-  return g
 
-print(cost(expand(board)))
-'''
+print("El coste es: ", cost(path))
+
 def heuristic_1(board):
 
     heuristic = np.count_nonzero(board == 0) + np.count_nonzero(board == -1) #Casillas que no son un caballo
 
     return heuristic
-# Pista:
-# - Al igual que con el coste cuanto menor sea el valor de la heurística mejor, ya que se pretende minimizar.
-# - Puedes probar con heuristicas no admisibles, pero al menos una de ellas debe ser admisible para puntuar.
 
-# Pista:
-# - Al igual que con el coste cuanto menor sea el valor de la heurística mejor, ya que se pretende minimizar.
-# - Puedes probar con heuristicas no admisibles, pero al menos una de ellas debe ser admisible para puntuar.
-
-'''
+print("La heurística es: ", heuristic_1(board))
 
 def prune(path_list):
     # Si detecta que dos caminos llevan al mismo estado,
@@ -168,6 +129,8 @@ def search(initial_board, expansion, cost, heuristic, ordering, solution):
     # 5 - Para cada estado expandido nuevo, añadirlo al camino lo que genera una lista de nuevos caminos
     # 6 - Ordenar los nuevos caminos y viejos caminos, y realizar poda. Volver al paso 1.
     # 7 - Devolver el camino si es solución, si no devolver None
+
+'''
 
     ################################# NO TOCAR #################################
     #                                                                          #
