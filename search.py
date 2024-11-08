@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-
 def initial_state(M, N):
     # Crea un tablero vacío usando 0s
     return np.zeros((M, N), dtype=int)
@@ -9,6 +8,7 @@ def initial_state(M, N):
 # Ejemplo de uso de la función estado inicial
 board = initial_state(3, 3)
 print("Tablero Inicial: ")
+board[0][0] = 1
 print(board)
 
 # Crea una lista de tableros con todas las posibles jugadas
@@ -32,6 +32,12 @@ def is_valid_new_knight(board, x, y):
         if board[i][j]:
             return False
     return True
+
+def threatened_square(board, x, y):
+    movs = knight_movements(board.shape[0], board.shape[1], x, y)
+    for i,j in movs:
+        board[i][j] = -1
+    return board
 
 # Ejemplo de uso de la función estado inicial
 def expand(board):
@@ -70,7 +76,8 @@ def is_solution(board):
 
 print("Solucion:", is_solution(board))
 
-def cost(path): # path debe contener VARIOS tableros
+'''
+def cost(path):
     actual = path[0]
     next = path[1]
     x, y = 0, 0
@@ -88,16 +95,31 @@ def cost(path): # path debe contener VARIOS tableros
     # Calcula el coste de un camino completo
     return cost
 
+def coste(path):
+  if len(path) == 0:
+    return 0
+  g = 0
+  for path[0], path[1] in zip(path[: -1], path[1: ]):
+    g += np.sum(abs(path[0] - path[1]) / 2)
+  return g
+
+print(cost(expand(board)))
+'''
 def heuristic_1(board):
-    heuristic = 0
+
+    heuristic = np.count_nonzero(board == 0) + np.count_nonzero(board == -1) #Casillas que no son un caballo
 
     return heuristic
+# Pista:
+# - Al igual que con el coste cuanto menor sea el valor de la heurística mejor, ya que se pretende minimizar.
+# - Puedes probar con heuristicas no admisibles, pero al menos una de ellas debe ser admisible para puntuar.
 
 # Pista:
 # - Al igual que con el coste cuanto menor sea el valor de la heurística mejor, ya que se pretende minimizar.
 # - Puedes probar con heuristicas no admisibles, pero al menos una de ellas debe ser admisible para puntuar.
 
 '''
+
 def prune(path_list):
     # Si detecta que dos caminos llevan al mismo estado,
     # solo nos interesa aquel camino de menor coste
@@ -117,8 +139,27 @@ def order_byb(old_paths, new_paths, c, *args, **kwargs):
 
 def search(initial_board, expansion, cost, heuristic, ordering, solution):
     # Realiza una búsqueda en el espacio de estados
-    paths = None # Crea la lista de caminos
+    paths = [initial_board] # Crea la lista de caminos
     sol = None # Este es el estado solucion
+
+    while paths and sol is None:
+        path = paths[0]
+        if is_solution(path):
+            sol = path
+            break
+        new_paths = expand(path)
+        if heuristic is None:
+            paths = order_byb(paths, new_paths, cost)
+        else:
+            paths = order_astar(paths, new_paths, cost, heuristic)
+
+        print("Number of paths remaining: ", len(paths))
+        print(board)
+
+    if len(paths) > 0:
+        return sol  # Devuelve solo la solucion, no el camino solucion
+    else:
+        return None
 
     # 1 - Mientras haya caminos y no se haya encontrado solución
     # 2 - Extraer el primer camino
@@ -127,11 +168,6 @@ def search(initial_board, expansion, cost, heuristic, ordering, solution):
     # 5 - Para cada estado expandido nuevo, añadirlo al camino lo que genera una lista de nuevos caminos
     # 6 - Ordenar los nuevos caminos y viejos caminos, y realizar poda. Volver al paso 1.
     # 7 - Devolver el camino si es solución, si no devolver None
-
-    if len(paths) > 0:
-        return sol # Devuelve solo la solucion, no el camino solucion
-    else:
-        return None
 
     ################################# NO TOCAR #################################
     #                                                                          #
