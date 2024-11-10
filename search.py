@@ -22,21 +22,6 @@ def place_knight(board, x, y):
 
     return board
 
-def is_valid_new_knight(board, x, y):
-    if board[x][y]:
-        return False
-    movs = knight_movements(board.shape[0], board.shape[1], x, y)
-    for i,j in movs:
-        if board[i][j]:
-            return False
-    return True
-
-def threatened_square(board, x, y):
-    movs = knight_movements(board.shape[0], board.shape[1], x, y)
-    for i,j in movs:
-        board[i][j] = -1
-    return board
-
 def expand(board):
     boards = []
 
