@@ -70,7 +70,7 @@ def order_astar(old_paths, new_paths, c, h, *args, **kwargs):
 
 def order_byb(old_paths, new_paths, c, *args, **kwargs):
     old_paths.extend(new_paths)
-    old_paths.sort(key=c, reverse=True)
+    old_paths.sort(key=c)
 
     return prune(old_paths) # Devuelve la lista de caminos ordenada y podada segun B&B
 
