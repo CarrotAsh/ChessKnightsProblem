@@ -58,7 +58,7 @@ def prune(path_list):
 def order_astar(old_paths, new_paths, c, h, *args, **kwargs):
     # Ordena la lista de caminos según una heurística
     old_paths.extend(new_paths)
-    old_paths.sort(key= lambda x: h(x[-1]))
+    old_paths.sort(key= lambda path: (c(path) + h(path[-1])))
 
     return prune(old_paths)  # Devuelve la lista de caminos ordenada y podada segun A*
 
