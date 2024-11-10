@@ -27,9 +27,9 @@ def expand(board):
 
     for i in range(board.shape[0]):
         for j in range(board.shape[1]):
-            if is_valid_new_knight(board, i, j):
+            if board[i][j] == 0:
                 new_board = copy_board(board)
-                place_knight(new_board,i,j)
+                place_knight(new_board, i, j)
                 boards.append(new_board)
 
     return boards
