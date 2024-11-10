@@ -50,13 +50,17 @@ def heuristic_1(board):
     return board.shape[0] * board.shape[1] - num_knights - black_threatened_squares
 
 def prune(path_list):
-    # Si detecta que dos caminos llevan al mismo estado,
-    # solo nos interesa aquel camino de menor coste
-    # Más adelante usamos la poda despues de ordenar
-    return [] # Devuelve una lista de caminos
+    unique_paths = []
+    for path in path_list:
+        unique = True
+        for uniq in unique_paths:
+            if np.array_equal(path[-1], uniq[-1]):
+                unique = False
+                break
+        if unique:
+            unique_paths.append(path)
 
-# *args y **kwargs son argumentos variables, si el argumento no es reconocido es almacenado en estas variables.
-# Aquí se utilizan para ignorar argumentos innecesarios.
+    return unique_paths
 
 def order_astar(old_paths, new_paths, c, h, *args, **kwargs):
     # Ordena la lista de caminos según una heurística
