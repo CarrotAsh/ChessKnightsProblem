@@ -34,12 +34,6 @@ def expand(board):
 
     return boards
 
-place_knight(board, 0, 0)
-lista_tableros = expand(board)
-#print("Expansion: ")
-#for b in range(len(lista_tableros)):
-    #print(lista_tableros[b])
-
 def is_solution(board):
     for i in range(board.shape[0]):
         for j in range(board.shape[1]):
