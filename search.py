@@ -38,11 +38,8 @@ def is_solution(board):
     return not np.any(board == 0)
 
 def cost(path):
-    board = path
-    print(board)
-    return np.sum(board == -1)
-
-print("El coste es: ", cost(board))
+    board = path[-1]
+    return np.sum(board[board == -1])
 
 def heuristic_1(board):
 
