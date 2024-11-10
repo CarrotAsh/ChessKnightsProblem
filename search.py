@@ -42,22 +42,16 @@ def cost(path):
 
 def heuristic_1(board):
     checkerboard_mask = (np.indices(board.shape).sum(axis=0) % 2 == 1)
-    threatened_squares_mask = (board == -1)
-    black_threatened_squares = np.sum(threatened_squares_mask & checkerboard_mask)
+    threatened_mask = (board == -1)
+    black_threatened = np.sum(threatened_mask & checkerboard_mask)
     num_knights = np.sum(board == 1)
 
-    return board.shape[0] * board.shape[1] - num_knights - black_threatened_squares
+    return board.shape[0] * board.shape[1] - num_knights - black_threatened
 
 def prune(path_list):
-    unique_paths = []
-    for path in path_list:
-        unique = True
-        for uniq in unique_paths:
-            if np.array_equal(path[-1], uniq[-1]):
-                unique = False
-                break
-        if unique:
-            unique_paths.append(path)
+    boards = np.array([path[-1] for path in path_list])
+    unique_boards, unique_indexes = np.unique(boards, axis=0, return_index=True)
+    unique_paths = [path_list[i] for i in sorted(unique_indexes)]
 
     return unique_paths
 
