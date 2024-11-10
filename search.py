@@ -4,7 +4,6 @@ def initial_state(M, N):
     return np.zeros((M, N), dtype=int)
 
 board = initial_state(3, 3)
-print(board)
 
 def copy_board(board):
     return np.copy(board)
@@ -39,7 +38,7 @@ def is_solution(board):
 
 def cost(path):
     board = path[-1]
-    return np.sum(board[board == -1])
+    return np.sum(board == -1)
 
 def heuristic_1(board):
     checkerboard_mask = (np.indices(board.shape).sum(axis=0) % 2 == 1)
