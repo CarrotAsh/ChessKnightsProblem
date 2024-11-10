@@ -168,6 +168,12 @@ launch_experiment('3x5', heuristic=heuristic_1) # Ejemplo de uso para A*
 print("Execution finished")
 
 ### Coloca aquí tus experimentos ###
-
+launch_experiment('2x2')
+launch_experiment('3x3')
+launch_experiment('3x5')
 ### Coloca aquí tus experimentos ###
-'''
+launch_experiment('2x2', heuristic=heuristic_1)
+launch_experiment('3x3', heuristic=heuristic_1)
+launch_experiment('3x5', heuristic=heuristic_1)
+launch_experiment('5x5', heuristic=heuristic_1)
+launch_experiment('8x8', heuristic=heuristic_1)
