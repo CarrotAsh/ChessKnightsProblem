@@ -108,37 +108,36 @@ def search(initial_board, expansion, cost, heuristic, ordering, solution):
     # 6 - Ordenar los nuevos caminos y viejos caminos, y realizar poda. Volver al paso 1.
     # 7 - Devolver el camino si es solución, si no devolver None
 
-'''
 
-    ################################# NO TOCAR #################################
-    #                                                                          #
-    import time
+################################# NO TOCAR #################################
+#                                                                          #
+import time
 
-    def timer(func):
-        def wrapper(*args, **kwargs):
-            start = time.time()
-            res = func(*args, **kwargs)
-            end = time.time()
-            print("Executime time: ", end - start, " seconds")
-            return res
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        res = func(*args, **kwargs)
+        end = time.time()
+        print("Executime time: ", end - start, " seconds")
+        return res
 
-        return wrapper
-    #                                                                          #
-    ################################# NO TOCAR #################################
+    return wrapper
+#                                                                          #
+################################# NO TOCAR #################################
 
-    # Este codigo temporiza la ejecución de una función cualquiera
+# Este codigo temporiza la ejecución de una función cualquiera
 
-    ################################# NO TOCAR #################################
-    #                                                                          #
-    @timer
-    def search_horse_byb(initial_board):
-        return search(initial_board, expand, cost, None, order_byb, is_solution)
+################################# NO TOCAR #################################
+#                                                                          #
+@timer
+def search_horse_byb(initial_board):
+    return search(initial_board, expand, cost, None, order_byb, is_solution)
 
-    @timer
-    def search_horse_astar(initial_board, heuristic):
-        return search(initial_board, expand, cost, heuristic, order_astar, is_solution)
-    #                                                                          #
-    ################################# NO TOCAR #################################
+@timer
+def search_horse_astar(initial_board, heuristic):
+    return search(initial_board, expand, cost, heuristic, order_astar, is_solution)
+#                                                                          #
+################################# NO TOCAR #################################
 
 CONF = {'2x2': (2, 2),
         '3x3': (3, 3),
@@ -148,9 +147,7 @@ CONF = {'2x2': (2, 2),
         }
 
 def measure_solution(board):
-    # Devuelve el número de caballos en la solución
-    # Es necesario programarla para poder medir la calidad de la solución
-    return 0
+    return np.sum(board[board == 1])
 
 def launch_experiment(configuration, heuristic=None):
     conf = CONF[configuration]
