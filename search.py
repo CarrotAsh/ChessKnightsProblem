@@ -42,12 +42,12 @@ def cost(path):
     return np.sum(board[board == -1])
 
 def heuristic_1(board):
+    checkerboard_mask = (np.indices(board.shape).sum(axis=0) % 2 == 1)
+    threatened_squares_mask = (board == -1)
+    black_threatened_squares = np.sum(threatened_squares_mask & checkerboard_mask)
+    num_knights = np.sum(board == 1)
 
-    heuristic = np.count_nonzero(board == 0) + np.count_nonzero(board == -1) #Casillas que no son un caballo
-
-    return heuristic
-
-print("La heurística es: ", heuristic_1(board))
+    return board.shape[0] * board.shape[1] - num_knights - black_threatened_squares
 
 def prune(path_list):
     # Si detecta que dos caminos llevan al mismo estado,
