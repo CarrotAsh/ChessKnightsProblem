@@ -71,8 +71,10 @@ def order_astar(old_paths, new_paths, c, h, *args, **kwargs):
     return old_paths  # Devuelve la lista de caminos ordenada y podada segun A*
 
 def order_byb(old_paths, new_paths, c, *args, **kwargs):
-    # Ordena la lista de caminos según una heurística
-    return prune([]) # Devuelve la lista de caminos ordenada y podada segun B&B
+    old_paths.extend(new_paths)
+    old_paths.sort(key=c, reverse=True)
+
+    return prune(old_paths) # Devuelve la lista de caminos ordenada y podada segun B&B
 
 def search(initial_board, expansion, cost, heuristic, ordering, solution):
     # Realiza una búsqueda en el espacio de estados
