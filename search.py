@@ -35,17 +35,7 @@ def expand(board):
     return boards
 
 def is_solution(board):
-    for i in range(board.shape[0]):
-        for j in range(board.shape[1]):
-            if is_valid_new_knight(board, i, j): #Si puede poner un caballo no es solución
-                return False
-    return True
-
-print("Es solucion:", is_solution(board))
-
-board = expand(board)[0]
-
-#print(path)
+    return not np.any(board == 0)
 
 def cost(path):
     board = path
