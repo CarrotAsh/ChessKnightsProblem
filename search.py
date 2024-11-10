@@ -1,11 +1,9 @@
 import numpy as np
-import pandas as pd
 
 def initial_state(M, N):
     return np.zeros((M, N), dtype=int)
 
 board = initial_state(3, 3)
-print("Tablero Inicial: ")
 print(board)
 
 def copy_board(board):
@@ -18,7 +16,10 @@ def knight_movements(M, N, x, y):
 
 def place_knight(board, x, y):
     board[x][y] = 1
-    threatened_square(board, x, y)
+
+    for i, j in knight_movements(board.shape[0], board.shape[1], x, y):
+        board[i][j] = -1
+
     return board
 
 def is_valid_new_knight(board, x, y):
@@ -48,10 +49,11 @@ def expand(board):
 
     return boards
 
+place_knight(board, 0, 0)
 lista_tableros = expand(board)
-print("Expansion: ")
-for b in range(len(lista_tableros)):
-    print(lista_tableros[b])
+#print("Expansion: ")
+#for b in range(len(lista_tableros)):
+    #print(lista_tableros[b])
 
 def is_solution(board):
     for i in range(board.shape[0]):
@@ -62,16 +64,16 @@ def is_solution(board):
 
 print("Es solucion:", is_solution(board))
 
-path = expand(board)[0]
+board = expand(board)[0]
 
-print(path)
+#print(path)
 
 def cost(path):
-    if path:
-        return np.sum(board[path[:-1]] == -1)
-    return 0
+    board = path
+    print(board)
+    return np.sum(board == -1)
 
-print("El coste es: ", cost(path))
+print("El coste es: ", cost(board))
 
 def heuristic_1(board):
 
