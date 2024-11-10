@@ -164,8 +164,9 @@ print("Execution finished")
 launch_experiment('2x2')
 launch_experiment('3x3')
 launch_experiment('3x5')
-launch_experiment('5x5')
-launch_experiment('8x8')
+# launch_experiment('5x5') "INVÁLIDO"
+# launch_experiment('8x8') "INVÁLIDO"
+
 ### Coloca aquí tus experimentos ###
 launch_experiment('2x2', heuristic=heuristic_1)
 launch_experiment('3x3', heuristic=heuristic_1)
