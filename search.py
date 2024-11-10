@@ -77,26 +77,27 @@ def order_byb(old_paths, new_paths, c, *args, **kwargs):
     return prune(old_paths) # Devuelve la lista de caminos ordenada y podada segun B&B
 
 def search(initial_board, expansion, cost, heuristic, ordering, solution):
-    # Realiza una búsqueda en el espacio de estados
-    paths = [initial_board] # Crea la lista de caminos
-    sol = None # Este es el estado solucion
+    paths = [ [initial_board] ]
+    sol = None
 
-    while paths and sol is None:
+    while len(paths) != 0 and sol is None:
         path = paths[0]
-        if is_solution(path):
-            sol = path
-            break
-        new_paths = expand(path)
-        if heuristic is None:
-            paths = order_byb(paths, new_paths, cost)
+        if solution(path[-1]):
+            sol = path[-1]
         else:
-            paths = order_astar(paths, new_paths, cost, heuristic)
+            paths.pop(0)
+            new_boards = expansion(path[-1])
+            new_paths = []
 
-        print("Number of paths remaining: ", len(paths))
-        print(board)
+            for board in new_boards:
+                new_path = path.copy()
+                new_path.append(board)
+                new_paths.append(new_path)
+
+            paths = ordering(paths, new_paths, cost, heuristic)
 
     if len(paths) > 0:
-        return sol  # Devuelve solo la solucion, no el camino solucion
+        return sol
     else:
         return None
 
